@@ -1,9 +1,10 @@
 const Router = require('koa-router')
 const controller = require('../controllers/userController')
 const router = new Router({
-  prefix: '/comminity'
+  prefix: '/'
 })
 
-router.post('/create', controller.comminity.create)
+router.post('comminity/create', controller.comminity.create)
+router.post('posts/create', controller.post.create)
 
 module.exports = router
