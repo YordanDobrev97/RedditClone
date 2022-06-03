@@ -4,7 +4,7 @@ const router = new Router({
   prefix: '/'
 })
 
-router.post('comminity/create', controller.comminity.create)
+router.post('community/create', controller.community.create)
 
 router.post('posts/create', controller.post.create)
 
@@ -12,6 +12,6 @@ router.get('comments', controller.comment.getAll)
 router.post('comment/create', controller.comment.create)
 router.put('comment/upVote/:id', controller.comment.upVote)
 router.put('comment/downVote/:id', controller.comment.downVote)
-router.delete('comment/:id', controller.comment.remove)
+router.delete('comment/:postId/:commentId', controller.comment.remove)
 
 module.exports = router

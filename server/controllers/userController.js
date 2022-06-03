@@ -1,25 +1,25 @@
-const Comminity = require("../models/Comminity")
+const Community = require("../models/Community")
 const User = require("../models/User")
 const Post = require("../models/Post")
 const Comment = require("../models/Comment")
 const jwt = require("jsonwebtoken")
 
 module.exports = {
-  comminity: {
+  community: {
     create: async (ctx, next) => {
       const { title } = ctx.request.body
       const token = ctx.request.headers["token"]
       const userToken = jwt.decode(token)
 
-      const comminity = new Comminity({ title })
-      const res = await comminity.save()
+      const community = new Community({ title })
+      const res = await community.save()
       const user = await User.findOne({ _id: userToken?.userID })
 
       if (!user) {
         return (ctx.body = "user does not exist")
       }
 
-      user.communiticies.push(res._id)
+      user.communities.push(res._id)
       await user.save()
       ctx.body = user
       next()
@@ -27,22 +27,22 @@ module.exports = {
   },
   post: {
     create: async (ctx, next) => {
-      const { comminityId, title, content } = ctx.request.body
+      const { communityId, title, content } = ctx.request.body
       try {
-        const comminityRes = await Comminity.findOne({ _id: comminityId })
-        if (!comminityRes) {
-          return (ctx.body = "Comminity does not exist")
+        const communityRes = await Community.findOne({ _id: communityId })
+        if (!communityRes) {
+          return (ctx.body = "community does not exist")
         }
 
         const post = new Post({ title, content })
         const postResponse = await post.save()
 
-        comminityRes.posts.push(postResponse._id)
-        await comminityRes.save()
-        ctx.body = comminityRes
+        communityRes.posts.push(postResponse._id)
+        await communityRes.save()
+        ctx.body = communityRes
         next();
       } catch (error) {
-        return (ctx.body = "ComminityId invalid")
+        return (ctx.body = "communityId invalid")
       }
     },
   },
@@ -72,14 +72,12 @@ module.exports = {
         ctx.body = commentResponse;
         next();
       } catch (error) {
-        
       }
     },
     upVote: async (ctx, next) => {
       try {
         const { id } = ctx.params
         const comment = await Comment.findOne({ _id: id })
-
         if (!comment) {
           return (ctx.body = "Comment does not exist")
         }
@@ -96,7 +94,6 @@ module.exports = {
       try {
         const { id } = ctx.params
         const comment = await Comment.findOne({ _id: id })
-
         if (!comment) {
           return (ctx.body = "Comment does not exist")
         }
@@ -111,13 +108,19 @@ module.exports = {
     },
     remove: async (ctx, next) => {
       try {
-        const { id } = ctx.params
-        const comment = await Comment.deleteOne({ _id: id })
-
+        const { postId, commentId } = ctx.params
+        const comment = await Comment.deleteOne({ _id: commentId })
         if (!comment) {
           return (ctx.body = "Comment does not exist")
         }
 
+        const post = await Post.findOne({ _id: postId })
+        if (!post) {
+          return ctx.body = 'This post does not exist'
+        }
+
+        post.comments = post.comments.filter(c => c._id.toString() !== commentId)
+        await post.save()
         ctx.body = 'Deleted'
         next()
       } catch (error) {
