@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
+const jwt = require('../utils/jwt')
 
 module.exports = {
   register: {
@@ -12,8 +13,9 @@ module.exports = {
         password: hashPassword
       });
       const res = await user.save()
-      ctx.body = res
+      const token = jwt.generate(res._id)
+      ctx.body = token
       next()
-    }
+    },
   }
 }

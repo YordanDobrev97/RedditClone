@@ -2,6 +2,8 @@ const Koa = require('koa')
 const koaBody = require('koa-body')
 
 const auth = require('./routes/auth')
+const user = require('./routes/user')
+
 const app = new Koa()
 require('./config/index')
 
@@ -16,8 +18,8 @@ class App {
   }
   async addRoutes() {
     app.use(auth.routes())
+    app.use(user.routes())
   }
-
 }
 
 module.exports = App
