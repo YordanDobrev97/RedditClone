@@ -6,6 +6,11 @@ import Layout from "./pages/Layout";
 import HomePage from "./pages/home";
 import RegisterPage from "./pages/auth/register";
 import LoginPage from "./pages/auth/login";
+import CommunityLayout from "./pages/community/Layout";
+import CommunityCreate from "./pages/community/create";
+import PostLayout from "./pages/post/Layout"
+import Posts from "./pages/post"
+
 import AuthContext from "./context/authContext";
 
 import "./App.css";
@@ -21,7 +26,13 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="home" element={<HomePage />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path='community' element={<CommunityLayout />}>
+              <Route path='create' element={<CommunityCreate />}/>
+            </Route>
+            <Route path='posts' element={<PostLayout />}>
+              <Route path='index' element={<Posts />}/>
+            </Route>
           </Route>
         </Routes>
       </Router>
