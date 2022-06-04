@@ -17,5 +17,23 @@ module.exports = {
       ctx.body = JSON.stringify(token)
       next()
     },
+  },
+  login: {
+    post: async (ctx, next) => {
+      const { email, password } = ctx.request.body
+      const user = await User.findOne({ email })
+
+      if (!user) {
+        return ctx.body = JSON.stringify('User does not exist')
+      }
+      const passwordRes = await bcrypt.compare(password, user.password)
+      if (!passwordRes) {
+        return ctx.body = JSON.stringify('The password is wrong')
+      }
+      
+      const token = jwt.generate(user._id)
+      ctx.body = JSON.stringify(token)
+      next()
+    }
   }
 }

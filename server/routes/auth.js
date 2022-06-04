@@ -5,11 +5,8 @@ const router = new Router({
   prefix: '/auth'
 })
 
-router.get('/login', async (ctx, next) => {
-  ctx.body = 'Login'
-  next()
-})
 
+router.post('/login', controller.login.post)
 router.post('/register', controller.register.post)
 
 module.exports = router

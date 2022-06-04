@@ -14,8 +14,8 @@ const RegisterPage = () => {
   const navigation = useNavigate();
 
   const register = async (email, password) => {
-    setLoading(true);
-    const token = await authenticate('auth/register', 'POST', DEFAULT_HEADERS, {
+    setLoading(true)
+    const token = await authenticate('auth/register', {
       email,
       password,
     });
