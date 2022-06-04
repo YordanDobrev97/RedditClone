@@ -34,6 +34,7 @@ function App() {
             <Route path='posts' element={<PostLayout />}>
               <Route path='index' element={<Posts />}/>
               <Route path='create/:communityId' element={<CreatePost />}/>
+              <Route path='create/' element={<CreatePost />}/>
               <Route path='details/:id' element={<Details />}/>
             </Route>
           </Route>

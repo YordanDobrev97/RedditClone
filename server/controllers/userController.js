@@ -14,7 +14,7 @@ module.exports = {
       const community = new Community({ title })
       const res = await community.save()
       const user = await User.findOne({ _id: userToken?.userID })
-
+      console.log(user)
       if (!user) {
         return (ctx.body = "user does not exist")
       }
@@ -24,6 +24,12 @@ module.exports = {
       ctx.body = JSON.stringify(community)
       next()
     },
+    getAll: async(ctx, next) => {
+      const communities = await Community.find({})
+      console.log(communities)
+      ctx.body = JSON.stringify(communities)
+      next()
+    }
   },
   post: {
     create: async (ctx, next) => {
@@ -34,7 +40,7 @@ module.exports = {
           return (ctx.body = "community does not exist")
         }
 
-        const post = new Post({ title, content })
+        const post = new Post({ title, content, votes: 0 })
         const postResponse = await post.save()
 
         communityRes.posts.push(postResponse._id)
@@ -50,6 +56,43 @@ module.exports = {
       const post = await Post.findOne({ _id: id })
       ctx.body = JSON.stringify(post)
       next() 
+    },
+    getAll: async(ctx, next) => {
+      const posts = await Post.find()
+      ctx.body = JSON.stringify(posts)
+      next()
+    },
+    upVote: async(ctx, next) => {
+      try {
+        const { id } = ctx.params
+        const post = await Post.findOne({ _id: id })
+        if (!post) {
+          return (ctx.body = "Post does not exist")
+        }
+
+        post.votes += 1
+        await post.save()
+        ctx.body = post
+        next();
+      } catch (error) {
+        ctx.body = "Post invalid!"
+      }
+    },
+    downVote: async(ctx, next) => {
+      try {
+        const { id } = ctx.params
+        const post = await Comment.findOne({ _id: id })
+        if (!post) {
+          return (ctx.body = "Post does not exist")
+        }
+
+        post.votes -= 1
+        await post.save()
+        ctx.body = post
+        next();
+      } catch (error) {
+        ctx.body = "Post invalid"
+      }
     }
   },
   comment: {

@@ -1,19 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { api } from '../../utils/request'
 
 const CreatePost = () => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [communities, setCommunities] = useState([])
+  const [selectCommunity, setSelectCommunity] = useState('')
 
   const params = useParams()
   const navigation = useNavigate()
+
+  useEffect(() => {
+    api.get('communities')
+    .then(r => r.json())
+    .then((data) => {
+      setCommunities(data)
+    })
+  }, [])
 
   const onSubmit = async (e) => {
     e.preventDefault();
     
     const res = await api.post('posts/create', 
-      {communityId: params.communityId, title, content}
+      {communityId: params.communityId || selectCommunity, title, content}
     ).then(r => r.json())
     
     if (res?._id) {
@@ -27,6 +37,20 @@ const CreatePost = () => {
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <form onSubmit={onSubmit}>
+                        {!params.communityId && (
+                        <div class="dropdown row relative">
+                          <select onChange={(e) => setSelectCommunity(e.target.value)} class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
+                            <option class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Select community</option>
+                            {communities && communities.map((c) => {
+                              return (
+                                <option key={c?._id} value={c._id} class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">{c.title}</option>
+                              )
+                            })}
+                            
+
+                          </select>
+                        </div>
+                        )}
                         <div class="mb-4">
                             <label class="text-xl text-gray-600">Title <span class="text-red-500">*</span></label>
                             <input type="text" onChange={(e) => setTitle(e.target.value)} class="border-2 border-gray-300 p-2 w-full" name="title" id="title" value={title} required />

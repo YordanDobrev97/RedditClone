@@ -4,8 +4,10 @@ const router = new Router({
   prefix: '/'
 })
 
+router.get('communities', controller.community.getAll)
 router.post('community/create', controller.community.create)
 
+router.get('posts', controller.post.getAll)
 router.get('posts/:id', controller.post.getById)
 router.post('posts/create', controller.post.create)
 
