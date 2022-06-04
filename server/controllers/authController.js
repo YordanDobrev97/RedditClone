@@ -14,7 +14,7 @@ module.exports = {
       });
       const res = await user.save()
       const token = jwt.generate(res._id)
-      ctx.body = token
+      ctx.body = JSON.stringify(token)
       next()
     },
   }

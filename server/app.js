@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const koaBody = require('koa-body')
+const cors = require('@koa/cors')
 
 const auth = require('./routes/auth')
 const user = require('./routes/user')
@@ -11,6 +12,7 @@ class App {
   constructor() {
     this.DEFAULT_PORT = 4000
     app.use(koaBody())
+    app.use(cors())
   }
   async start(port = this.DEFAULT_PORT) {
     app.listen(port, () => console.log(`Server running at ${port} PORT!`))

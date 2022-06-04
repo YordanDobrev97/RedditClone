@@ -7,7 +7,7 @@ const AuthForm = ( { title, authHandler } ) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     
-    authHandler(email, password)
+    await authHandler(email, password)
   }
 
   return (
