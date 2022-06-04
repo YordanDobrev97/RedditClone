@@ -16,9 +16,8 @@ const CommunityCreate = () => {
     }).then(r => r.json())
     
     if (res?._id) {
-      navigation('/posts/index')
+      navigation(`/posts/create/${res._id}`)
     }
-
   }
 
   return (

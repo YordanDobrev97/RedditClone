@@ -21,7 +21,7 @@ module.exports = {
 
       user.communities.push(res._id)
       await user.save()
-      ctx.body = user
+      ctx.body = JSON.stringify(community)
       next()
     },
   },
@@ -39,7 +39,7 @@ module.exports = {
 
         communityRes.posts.push(postResponse._id)
         await communityRes.save()
-        ctx.body = communityRes
+        ctx.body = JSON.stringify(post)
         next();
       } catch (error) {
         return (ctx.body = "communityId invalid")
