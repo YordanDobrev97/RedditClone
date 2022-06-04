@@ -6,6 +6,7 @@ const router = new Router({
 
 router.post('community/create', controller.community.create)
 
+router.get('posts/:id', controller.post.getById)
 router.post('posts/create', controller.post.create)
 
 router.get('comments', controller.comment.getAll)

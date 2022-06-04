@@ -45,6 +45,12 @@ module.exports = {
         return (ctx.body = "communityId invalid")
       }
     },
+    getById: async(ctx, next) => {
+      const { id } = ctx.request.params
+      const post = await Post.findOne({ _id: id })
+      ctx.body = JSON.stringify(post)
+      next() 
+    }
   },
   comment: {
     getAll: async (ctx, next) => {
