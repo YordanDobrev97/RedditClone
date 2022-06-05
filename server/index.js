@@ -1,4 +1,4 @@
 const Application = require('./app')
 const newApp = new Application()
-
-newApp.start()
+const PORT = process.env.PORT || 4000
+newApp.start(PORT)

@@ -12,11 +12,10 @@ require('./config/index')
 
 class App {
   constructor() {
-    this.DEFAULT_PORT = 4000
     app.use(koaBody())
     app.use(cors())
   }
-  async start(port = this.DEFAULT_PORT) {
+  async start(port) {
     app.listen(port, () => console.log(`Server running at ${port} PORT!`))
     await this.addRoutes()
   }
