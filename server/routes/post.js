@@ -3,6 +3,10 @@ const controller = require('../controllers/postController')
 const router = new Router({
   prefix: '/'
 })
+router.get('', (ctx, next) => {
+  ctx.body = JSON.stringify('Welcome to reddit api')
+  next()
+})
 
 router.get('posts', controller.get.getAll)
 router.get('posts/:id', controller.get.getById)

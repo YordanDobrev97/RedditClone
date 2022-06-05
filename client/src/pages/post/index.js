@@ -27,7 +27,7 @@ const Posts = () => {
           posts.map((post) => {
             return (
               <div key={post._id}>
-                <Card id={post._id} title={post.title} votes={post.votes} />;
+                <Card id={post._id} title={post.title} votes={post.votes} />
               </div>
             )
           })}

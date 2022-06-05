@@ -5,7 +5,6 @@ const router = new Router({
   prefix: '/auth'
 })
 
-
 router.post('/login', controller.login.post)
 router.post('/register', controller.register.post)
 
