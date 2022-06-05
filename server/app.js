@@ -3,7 +3,9 @@ const koaBody = require('koa-body')
 const cors = require('@koa/cors')
 
 const auth = require('./routes/auth')
-const user = require('./routes/user')
+const community = require('./routes/community')
+const post = require('./routes/post')
+const comment = require('./routes/comment')
 
 const app = new Koa()
 require('./config/index')
@@ -20,7 +22,9 @@ class App {
   }
   async addRoutes() {
     app.use(auth.routes())
-    app.use(user.routes())
+    app.use(community.routes())
+    app.use(post.routes())
+    app.use(comment.routes())
   }
 }
 
