@@ -1,7 +1,7 @@
 ## :point_right: Project description :point_left:
 **RedditClone** is a small and very basic web application that resembles the functionality of Reddit.com. Any user can create a community in which to post and can like posts / comments and comment on a post. 
 
-Visit online - https://reddit-app-yordandobrev97.vercel.app/home
+Visit online - https://reddit-3y7s9yhvc-yordandobrev97.vercel.app
 
 ## :hammer: Used technologies
 - Koa.js
